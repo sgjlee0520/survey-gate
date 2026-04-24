@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete the Survey to Get Your Practice Midterm</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    main {
+      width: 100%;
+      max-width: 720px;
+      padding: 2rem 1rem 3rem;
+      flex: 1;
+    }
+
+    .survey-container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .survey-container iframe {
+      width: 100%;
+      height: 650px;
+      border: none;
+      display: block;
+    }
+
+    .download-section {
+      margin-top: 1.5rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .download-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .download-section h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a2e;
+    }
+
+    .download-section p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.25rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .download-btn:hover {
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .download-btn:active {
+      transform: translateY(0);
+    }
+
+    .download-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.35rem; }
+      .survey-container iframe { height: 520px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Quick Survey</h1>
+    <p>Please complete the short survey below. Once you submit your response, the download link will appear.</p>
+  </header>
+
+  <main>
+    <div class="survey-container">
+      <!--
+        REPLACE THE URL BELOW with your own Google Form link.
+        Make sure it ends with /viewform?embedded=true
+        Example: https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true
+      -->
+      <iframe
+        id="survey-frame"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSckcY7AgutlqSV2z4wJBgw_U3pYtEVSmvrovW-9sPLgsndYrA/viewform?embedded=true"
+        title="Survey"
+        loading="lazy"
+      >Loading survey…</iframe>
+    </div>
+
+    <div class="download-section" id="download-section">
+      <h2>Thank you for completing the survey!</h2>
+      <p>Click below to download the practice midterm.</p>
+      <a class="download-btn" href="assets/practice-midterm.pdf" download>
+        Download Practice Midterm
+      </a>
+    </div>
+  </main>
+
+  <footer>&copy; 2026 &mdash; Survey-Gated Download</footer>
+
+  <script>
+    (function () {
+      var iframe = document.getElementById("survey-frame");
+      var downloadSection = document.getElementById("download-section");
+      var loadCount = 0;
+
+      iframe.addEventListener("load", function () {
+        loadCount++;
+        // First load = the form itself. Second load = form was submitted.
+        if (loadCount >= 2) {
+          downloadSection.classList.add("visible");
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
