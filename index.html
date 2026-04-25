@@ -60,6 +60,28 @@
       display: block;
     }
 
+    .lock-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .lock-card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-card p {
+      color: #555;
+    }
+
+    .hidden {
+      display: none;
+    }
+
     .download-section {
       margin-top: 1.5rem;
       background: #fff;
@@ -141,7 +163,12 @@
   </header>
 
   <main>
-    <div class="survey-container">
+    <div class="lock-card" id="survey-lock">
+      <h2>Survey opens at 2:55 PM today</h2>
+      <p>Please come back at 2:55 PM to complete the survey.</p>
+    </div>
+
+    <div class="survey-container hidden" id="survey-container">
       <!--
         REPLACE THE URL BELOW with your own Google Form link.
         Make sure it ends with /viewform?embedded=true
@@ -157,8 +184,8 @@
 
     <div class="download-section" id="download-section">
       <h2>Thank you for completing the survey!</h2>
-      <p>Click below to download the practice midterm.</p>
-      <a class="download-btn" href="assets/practice-midterm.pdf" download>
+      <p id="download-message">The practice midterm will unlock at 3:05 PM.</p>
+      <a class="download-btn hidden" id="download-btn" href="assets/practice-midterm.pdf" download>
         Download Practice Midterm
       </a>
     </div>
@@ -168,17 +195,50 @@
 
   <script>
     (function () {
+      var surveyUnlockTime = new Date(2026, 3, 25, 14, 55, 0);
+      var pdfUnlockTime = new Date(2026, 3, 25, 15, 5, 0);
+
+      var surveyLock = document.getElementById("survey-lock");
+      var surveyContainer = document.getElementById("survey-container");
       var iframe = document.getElementById("survey-frame");
       var downloadSection = document.getElementById("download-section");
+      var downloadMessage = document.getElementById("download-message");
+      var downloadBtn = document.getElementById("download-btn");
       var loadCount = 0;
+      var surveyCompleted = false;
+
+      function updateTimeLocks() {
+        var now = new Date();
+        var surveyUnlocked = now >= surveyUnlockTime;
+        var pdfUnlocked = now >= pdfUnlockTime;
+
+        surveyLock.classList.toggle("hidden", surveyUnlocked);
+        surveyContainer.classList.toggle("hidden", !surveyUnlocked);
+
+        if (surveyCompleted) {
+          downloadSection.classList.add("visible");
+
+          if (pdfUnlocked) {
+            downloadMessage.textContent = "Your practice midterm is ready. Click below to download.";
+            downloadBtn.classList.remove("hidden");
+          } else {
+            downloadMessage.textContent = "Thanks for completing the survey. The practice midterm will unlock at 3:05 PM.";
+            downloadBtn.classList.add("hidden");
+          }
+        }
+      }
 
       iframe.addEventListener("load", function () {
         loadCount++;
         // First load = the form itself. Second load = form was submitted.
         if (loadCount >= 2) {
-          downloadSection.classList.add("visible");
+          surveyCompleted = true;
+          updateTimeLocks();
         }
       });
+
+      updateTimeLocks();
+      setInterval(updateTimeLocks, 1000);
     })();
   </script>
 
