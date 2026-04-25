@@ -1,4 +1,11 @@
 # Assets Folder
 
-Place your PDF file here and name it `your-file.pdf` (or rename the
-reference in `index.html` to match your filename).
+Place the PDFs here using these filenames:
+
+- `practice-midterm.pdf` for the main survey-gated page
+- `section-2-solution.pdf` for the Section 2 solution
+- `section-3-solution.pdf` for the Section 3 solution
+- `section-4-solution.pdf` for the Section 4 solution
+
+If you use different filenames, update the matching links in `index.html`
+or `solutions.html`.
